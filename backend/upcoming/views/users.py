@@ -16,9 +16,9 @@ import jwt
 
 @view_config(route_name='login', renderer='json')
 def login(request):
-    print(request.json_body)
+    print(request.params)
     try:
-        appstruct = login_schema.deserialize(request.json_body)
+        appstruct = login_schema.deserialize(request.params)
     except Invalid:
         log.debug('invalid')
         return HTTPUnauthorized()
@@ -37,4 +37,7 @@ def login(request):
         log.debug('wrong password')
         return HTTPUnauthorized()
 
-    return str(jwt.encode({"username": u.username}, "secret_pass"))
+    str = jwt.encode({"username": u.username}, "secret_pass").decode()
+    log.debug(jwt.decode(str, "secret_pass"))
+
+    return jwt.encode({"username": u.username}, "secret_pass").decode()

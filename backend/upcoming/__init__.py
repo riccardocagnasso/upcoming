@@ -6,6 +6,9 @@ from pyramid_jwtauth import JWTAuthenticationPolicy
 
 from .models import DBSession, Base, groupfinder, RootFactory
 
+import logging
+log = logging.getLogger(__name__)
+
 
 def main(global_config, **settings):
     """ This function returns a Pyramid WSGI application.
@@ -29,3 +32,11 @@ def main(global_config, **settings):
     config.scan()
 
     return config.make_wsgi_app()
+
+from pyramid.events import NewResponse
+from pyramid.events import subscriber
+
+@subscriber(NewResponse)
+def access_control_allow_origin_enable(event):
+    event.response.headers['Access-Control-Allow-Origin'] = '*'
+    event.response.headers['Access-Control-Allow-Methods'] = '*'

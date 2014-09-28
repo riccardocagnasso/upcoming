@@ -15,7 +15,8 @@ angular
     'ngResource',
     'ngRoute',
     'ngSanitize',
-    'ngTouch'
+    'ngTouch',
+    'LocalStorageModule'
   ])
   .config ($routeProvider) ->
     $routeProvider
@@ -27,4 +28,3 @@ angular
         controller: 'AboutCtrl'
       .otherwise
         redirectTo: '/'
-
