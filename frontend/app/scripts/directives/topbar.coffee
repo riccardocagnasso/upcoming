@@ -8,35 +8,37 @@
  # Controller of the frontendApp
 ###
 angular.module('frontendApp')
-  .directive 'topBar', -> {
-      restrict: 'E'
-      templateUrl: 'views/topbar.html'
-      controllerAs: 'topBarCtrl'
-      transclude: true
-      controller: [ '$http', 'localStorageService',
-          class TopBarController
-              loginData: {}
-              username: null
+    .directive 'topBar', -> {
+        restrict: 'E'
+        templateUrl: 'views/topbar.html'
+        controllerAs: 'topBarCtrl'
+        transclude: true
+        controller: [ '$http', 'localStorageService',
+            class TopBarController
+                loginData: {}
+                username: null
 
-              constructor: ($http, localStorage) ->
-                  this.$http = $http
-                  this.localStorage = localStorage
-                  this.username = this.localStorage.get 'username'
+                constructor: ($http, localStorage) ->
+                    this.$http = $http
+                    this.localStorage = localStorage
+                    this.username = this.localStorage.get 'username'
 
-              login: ->
-                  controller = this
-                  (this.$http.post 'http://localhost:6543/api/login',
+                login: ->
+                    controller = this
+                    (this.$http.post 'http://localhost:6543/api/login',
                         controller.loginData).success (data) ->
                             if data.success
                                 controller.username = controller.loginData.username
-                                controller.localStorage.set 'userToken', data
+                                controller.localStorage.set 'token', data
                                 controller.localStorage.set 'username', controller.loginData.username
-                                controller.loginData = {}
+                                #controller.loginData = {}
 
-              logout: ->
-                  this.localStorage.remove 'userToken'
-                  this.localStorage.remove 'username'
-                  this.username = null
+                                controller.$http.get 'http://localhost:6543/api/upcomings'
 
-        ]
-  }
+                logout: ->
+                    this.localStorage.remove 'token'
+                    this.localStorage.remove 'username'
+                    this.username = null
+
+            ]
+    }

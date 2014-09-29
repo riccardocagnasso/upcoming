@@ -30,7 +30,6 @@ class Base(object):
 
         columns = self.__class__.get_all_columns()
 
-        d = {}
         for c in columns:
             if getattr(self, c.name) is None:
                 value = None
@@ -58,13 +57,13 @@ class Base(object):
         while True:
             try:
                 arg = args.pop()
-            except IndexError as e:
+            except IndexError:
                 break
 
             if arg != 'self':
                 try:
                     callarguments[arg] = data.get(arg, defaults.pop())
-                except IndexError as e:
+                except IndexError:
                     callarguments[arg] = data[arg]
 
         obj = cls(**callarguments)

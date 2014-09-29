@@ -6,7 +6,6 @@ from ..models.forms import *
 from . import *
 
 import logging
-import json
 log = logging.getLogger(__name__)
 
 from pyramid.httpexceptions import HTTPUnauthorized
@@ -43,10 +42,8 @@ def login(request):
             'message': 'wrong password'
         }
 
-    str = jwt.encode({"username": u.username}, "secret_pass").decode()
-    log.debug(jwt.decode(str, "secret_pass"))
-
+    jwt_secret = request.registry.settings.get('jwt_secret')
     return {
         'success': True,
-        'token': jwt.encode({"username": u.username}, "secret_pass").decode()
+        'token': jwt.encode({"username": u.username}, jwt_secret).decode()
     }

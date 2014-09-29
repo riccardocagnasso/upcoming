@@ -18,8 +18,9 @@ def main(global_config, **settings):
     Base.metadata.bind = engine
     config = Configurator(settings=settings)
 
-    authentication = JWTAuthenticationPolicy(master_secret='secret_pass',
-                                             find_groups=groupfinder)
+    authentication = JWTAuthenticationPolicy(master_secret=settings['jwt_secret'],
+                                             find_groups=groupfinder,
+                                             userid_in_claim='username')
     authorization = ACLAuthorizationPolicy()
 
     config = Configurator(settings=settings, root_factory=RootFactory,
@@ -27,6 +28,9 @@ def main(global_config, **settings):
                           authorization_policy=authorization)
 
     config.add_route('upcomings', '/api/upcomings')
+    config.add_route('search_upcomings', '/api/searchUpcomings')
+    config.add_route('my_upcomings', '/api/myUpcomings')
+
     config.add_route('login', '/api/login')
 
     config.scan()
@@ -38,6 +42,6 @@ from pyramid.events import subscriber
 
 @subscriber(NewResponse)
 def access_control_allow_origin_enable(event):
-    event.response.headers['Access-Control-Allow-Headers'] = 'Content-Type'
+    event.response.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization'
     event.response.headers['Access-Control-Allow-Origin'] = '*'
     event.response.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, OPTIONS'

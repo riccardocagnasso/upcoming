@@ -4,7 +4,7 @@ from sqlalchemy.orm.exc import NoResultFound
 
 from . import Base, DBSession
 
-from datetime import datetime, timedelta
+from datetime import datetime
 from passlib.apps import custom_app_context as pwd_context
 
 from pyramid.security import Allow, Everyone, Authenticated

@@ -8,8 +8,7 @@
  #
  # Main module of the application.
 ###
-angular
-    .module('frontendApp', [
+module = angular.module('frontendApp', [
         'ngAnimate',
         'ngCookies',
         'ngResource',
@@ -18,8 +17,6 @@ angular
         'ngTouch',
         'LocalStorageModule'
     ]).config ($routeProvider) ->
-        console.log($routeProvider.defaults)
-
         $routeProvider
             .when '/',
                 templateUrl: 'views/main.html'
@@ -27,5 +24,27 @@ angular
             .when '/about',
                 templateUrl: 'views/about.html'
                 controller: 'AboutCtrl'
+            .when '/myUpcomings',
+                templateUrl: 'views/myUpcomings.html'
+                controller: 'MyUpcomingsCtrl'
+                controllerAs: 'MyUpcomingsCtrl'
+            .when '/newUpcoming',
+                templateUrl: 'views/newUpcoming.html'
+                controller: 'NewUpcomingCtrl'
+                controllerAs: 'NewUpcomingCtrl'
             .otherwise
                 redirectTo: '/'
+
+module.factory 'myInterceptor', ['localStorageService', (localStorage) ->
+    return request: (config) ->
+        token = localStorage.get 'token'
+        username = localStorage.get 'username'
+
+        if token and token.token and username
+            config.headers.Authorization = 'JWT token="'+ token.token+'"'
+        return config
+]
+
+module.config ['$httpProvider', ($httpProvider) ->
+    $httpProvider.interceptors.push 'myInterceptor'
+]
