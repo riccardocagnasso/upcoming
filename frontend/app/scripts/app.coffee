@@ -9,22 +9,23 @@
  # Main module of the application.
 ###
 angular
-  .module('frontendApp', [
-    'ngAnimate',
-    'ngCookies',
-    'ngResource',
-    'ngRoute',
-    'ngSanitize',
-    'ngTouch',
-    'LocalStorageModule'
-  ])
-  .config ($routeProvider) ->
-    $routeProvider
-      .when '/',
-        templateUrl: 'views/main.html'
-        controller: 'MainCtrl'
-      .when '/about',
-        templateUrl: 'views/about.html'
-        controller: 'AboutCtrl'
-      .otherwise
-        redirectTo: '/'
+    .module('frontendApp', [
+        'ngAnimate',
+        'ngCookies',
+        'ngResource',
+        'ngRoute',
+        'ngSanitize',
+        'ngTouch',
+        'LocalStorageModule'
+    ]).config ($routeProvider) ->
+        console.log($routeProvider.defaults)
+
+        $routeProvider
+            .when '/',
+                templateUrl: 'views/main.html'
+                controller: 'MainCtrl'
+            .when '/about',
+                templateUrl: 'views/about.html'
+                controller: 'AboutCtrl'
+            .otherwise
+                redirectTo: '/'

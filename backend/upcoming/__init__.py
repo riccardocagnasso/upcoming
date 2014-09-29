@@ -38,5 +38,6 @@ from pyramid.events import subscriber
 
 @subscriber(NewResponse)
 def access_control_allow_origin_enable(event):
+    event.response.headers['Access-Control-Allow-Headers'] = 'Content-Type'
     event.response.headers['Access-Control-Allow-Origin'] = '*'
-    event.response.headers['Access-Control-Allow-Methods'] = '*'
+    event.response.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, OPTIONS'

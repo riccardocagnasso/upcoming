@@ -1,7 +1,7 @@
 from deform import Form, ValidationFailure
 from ..models import *
 from ..models.forms import *
-from pyramid.httpexceptions import HTTPNotFound
+from pyramid.httpexceptions import HTTPNotFound, HTTPOk
 import json
 import transaction
 
@@ -12,6 +12,16 @@ from colander import Invalid
 import logging
 log = logging.getLogger(__name__)
 
+
+class cors(object):
+    def __init__(self, f):
+        self.f = f
+
+    def __call__(self, request):
+        if request.method == 'OPTIONS':
+            return HTTPOk()
+        else:
+            return self.f(request)
 
 class RESTView(object):
 
