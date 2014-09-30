@@ -20,7 +20,12 @@ class NewUpcomingCtrl
                 controller.upcomings = data.upcomings
 
     associate: (id) ->
-        console.log(id)
+        controller = this
+
+        this.$http.post 'http://localhost:6543/api/associate', {'id': id}
+            .success (data) ->
+                console.log data
+                console.log 'associate'
 
 
 angular.module('frontendApp')

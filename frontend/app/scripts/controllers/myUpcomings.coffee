@@ -19,7 +19,7 @@ class MyUpcomingsCtrl
     loadUpcomings: ->
         controller = this
 
-        this.$http.get 'http://localhost:6543/api/upcomings'
+        this.$http.get 'http://localhost:6543/api/myUpcomings'
             .success (data) ->
                 controller.upcomings = data.upcomings
 

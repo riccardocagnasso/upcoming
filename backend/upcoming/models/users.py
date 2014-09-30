@@ -14,17 +14,19 @@ log = logging.getLogger(__name__)
 
 
 class RootFactory(object):
-    __acl__ = [ (Allow, Everyone, 'everybody'),
-                (Allow, Authenticated, 'user'),
-                (Allow, 'admin', ('edit', 'admin'))
-              ]
+    __acl__ = [
+        (Allow, Everyone, 'everybody'),
+        (Allow, 'users', 'logged'),
+        (Allow, 'admin', ('edit', 'admin'))]
+
     def __init__(self, request):
         pass
+
 
 def groupfinder(username, request):
     """Placeholder groupfinder"""
     user = User.get(username)
-    return ["user"]
+    return ["users"]
 
 
 class WrongUsername(Exception):
