@@ -1,5 +1,9 @@
 from sqlalchemy import *
 from sqlalchemy.orm import relationship
+from sqlalchemy_utils.types import TSVectorType
+from sqlalchemy_searchable import search
+from sqlalchemy.orm.collections import attribute_mapped_collection
+
 
 from . import Base, DBSession
 
@@ -38,8 +42,12 @@ class Upcoming(Base):
         nullable=False)
     user = relationship('User', backref='upcomings')
 
-    suscribed_users = relationship('User', secondary=subscriptions_table,
-                                   backref='subscriptions')
+    suscribed_users = relationship(
+        'User', secondary=subscriptions_table,
+        backref='subscriptions',
+        collection_class=attribute_mapped_collection('username'))
+
+    search_vector = Column(TSVectorType('name', 'description'))
 
     def __init__(self, name, description, date, username):
         self.name = name
@@ -50,3 +58,20 @@ class Upcoming(Base):
     @classmethod
     def get(cls, id):
         return DBSession.query(Upcoming).filter(Upcoming.id==id).one()
+
+    @classmethod
+    def list(self, searchquery=None):
+        query = super(Upcoming, self).list()
+
+        if searchquery:
+            query = search(query, searchquery)
+
+        return query
+
+    def rich_to_dict(self, username=None):
+        d = dict(self)
+
+        if username:
+            d['subscribed'] = username in self.suscribed_users
+
+        return d

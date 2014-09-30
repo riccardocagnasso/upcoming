@@ -20,7 +20,8 @@ requires = [
     'colander',
     'deform',
     'alembic',
-    'passlib'
+    'passlib',
+    'pyramid_jwtauth'
     ]
 
 setup(name='upcoming',

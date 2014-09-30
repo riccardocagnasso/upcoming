@@ -32,6 +32,7 @@ def main(global_config, **settings):
     config.add_route('search_upcomings', '/api/searchUpcomings')
     config.add_route('my_upcomings', '/api/myUpcomings')
     config.add_route('associate', '/api/associate')
+    config.add_route('disassociate', '/api/disassociate')
 
     config.add_route('login', '/api/login')
 

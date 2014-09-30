@@ -3,6 +3,8 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 from zope.sqlalchemy import ZopeTransactionExtension
 from datetime import *
 
+from sqlalchemy_searchable import make_searchable
+
 
 DBSession = scoped_session(sessionmaker(extension=ZopeTransactionExtension()))
 
@@ -85,6 +87,8 @@ class Base(object):
                         r.set(prop.argument.create(child, add=False))
 
 Base = declarative_base(cls=Base)
+
+make_searchable()
 
 from .upcomings import *
 from .users import *

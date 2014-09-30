@@ -22,19 +22,20 @@ def myUpcomings(request):
     userid = request.authenticated_userid
     user = User.get(userid)
 
-    log.debug(user)
-    log.debug(request.has_permission('logged'))
-
     return {
-        'upcomings': list(map(dict, user.subscriptions))
+        'upcomings': [u.rich_to_dict(userid) for u in user.subscriptions]
     }
 
 
 @view_config(route_name='search_upcomings', renderer='json')
 @cors
 def searchUpcomings(request):
+    userid = request.authenticated_userid
+    searchquery = request.json_body.get('searchquery', '')
+
     return {
-        'upcomings': list(map(dict, Upcoming.list()))
+        'upcomings': [u.rich_to_dict(userid)
+                      for u in Upcoming.list(searchquery)]
     }
 
 
@@ -48,3 +49,21 @@ def associate(request):
     user = User.get(userid)
 
     user.subscriptions.append(upcoming)
+
+    return {
+        'success': True
+    }
+
+
+@view_config(route_name='disassociate', renderer='json')
+@cors
+def disassociate(request):
+    upcoming_id = request.json_body.get('id')
+    upcoming = Upcoming.get(upcoming_id)
+
+    userid = request.authenticated_userid
+    del upcoming.suscribed_users[userid]
+
+    return {
+        'success': True
+    }

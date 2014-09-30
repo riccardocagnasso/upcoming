@@ -14,7 +14,7 @@ class NewUpcomingCtrl
     searchUpcomings: ->
         controller = this
 
-        this.$http.get 'http://localhost:6543/api/searchUpcomings'
+        this.$http.post 'http://localhost:6543/api/searchUpcomings', {searchquery: this.newUpcoming.name}
             .success (data) ->
                 console.log data.upcomings
                 controller.upcomings = data.upcomings
