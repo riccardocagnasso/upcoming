@@ -4,9 +4,21 @@ class NewUpcomingCtrl
     this.upcomings = []
     this.newUpcoming = {}
 
-    constructor: ($http, $scope) ->
+    constructor: ($http, $rootScope, $scope) ->
+        controller = this
         this.$http = $http
         this.$scope = $scope
+        this.$rootScope = $rootScope
+
+        unbind = this.$rootScope.$on 'upcoming.associate', ->
+            controller.searchUpcomings()
+        this.$scope.$on('$destroy', unbind)
+        unbind = this.$rootScope.$on 'upcoming.disassociate', ->
+            controller.searchUpcomings()
+        this.$scope.$on('$destroy', unbind)
+
+        ($ '.input-group.date').datepicker
+            format: "yyyy-mm-dd"
 
     nameChange: ->
         this.searchUpcomings()
@@ -14,19 +26,21 @@ class NewUpcomingCtrl
     searchUpcomings: ->
         controller = this
 
-        this.$http.post 'http://localhost:6543/api/searchUpcomings', {searchquery: this.newUpcoming.name}
+        this.$http.post '/api/searchUpcomings', {searchquery: this.newUpcoming.name}
             .success (data) ->
-                console.log data.upcomings
                 controller.upcomings = data.upcomings
 
-    associate: (id) ->
+    createUpcoming: ->
         controller = this
 
-        this.$http.post 'http://localhost:6543/api/associate', {'id': id}
+        console.log newForm.$valid
+
+        this.$http.post '/api/createUpcoming', this.newUpcoming
             .success (data) ->
-                console.log data
-                console.log 'associate'
+                controller.searchUpcomings()
+                controller.newUpcoming = {}
 
 
 angular.module('frontendApp')
-    .controller 'NewUpcomingCtrl', ['$http', '$scope', NewUpcomingCtrl]
+    .controller 'NewUpcomingCtrl', ['$http', '$rootScope',
+                                    '$scope', NewUpcomingCtrl]

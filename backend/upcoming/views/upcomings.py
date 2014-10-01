@@ -67,3 +67,27 @@ def disassociate(request):
     return {
         'success': True
     }
+
+
+@view_config(route_name='create_upcoming', renderer='json')
+@cors
+def create_upcoming(request):
+    try:
+        appstruct = new_upcoming_schema.deserialize(request.json_body)
+    except Invalid as i:
+        log.debug(i)
+        return {
+            'success': False,
+            'message': 'invalid data'
+        }
+
+    userid = request.authenticated_userid
+    user = User.get(userid)
+
+    appstruct['username'] = user.username
+    u = Upcoming.create(appstruct)
+    u.suscribed_users[userid] = user
+
+    return {
+        'success': True
+    }

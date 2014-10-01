@@ -168,6 +168,34 @@ module.exports = function (grunt) {
       }
     },
 
+    ngconstant: {
+      options: {
+        name: 'config',
+        wrap: '"use strict";\n\n{%= __ngModule %}',
+        space: '  '
+      },
+      development: {
+        options: {
+          cwd: '<%= yeoman.app %>/scripts',
+          dest: '.tmp/scripts/config.js',
+        },
+        constants: {
+          ENV: 'development',
+          BASEURL: 'http://localhost:6543'
+        }
+      },
+      production: {
+        options: {
+          cwd: '<%= yeoman.app %>/scripts',
+          dest: '.tmp/scripts/config.js',
+        },
+        constants: {
+          ENV: 'production',
+          BASEURL: ''
+        }
+      }
+    },
+
     // Compiles CoffeeScript to JavaScript
     coffee: {
       options: {
@@ -420,6 +448,7 @@ module.exports = function (grunt) {
 
     grunt.task.run([
       'clean:server',
+      'ngconstant:development',
       'wiredep',
       'concurrent:server',
       'autoprefixer',
@@ -443,6 +472,7 @@ module.exports = function (grunt) {
 
   grunt.registerTask('build', [
     'clean:dist',
+    'ngconstant:production',
     'wiredep',
     'useminPrepare',
     'concurrent:dist',

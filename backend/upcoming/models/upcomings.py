@@ -68,6 +68,12 @@ class Upcoming(Base):
 
         return query
 
+    def __iter__(self):
+        for e in super(Upcoming, self).__iter__():
+            yield e
+
+        yield 'date', self.date.timestamp() * 1e3
+
     def rich_to_dict(self, username=None):
         d = dict(self)
 

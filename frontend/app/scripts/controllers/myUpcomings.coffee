@@ -8,34 +8,31 @@
  # Controller of the frontendApp
 ###
 class MyUpcomingsCtrl
-    constructor: ($http, $scope) ->
-        this.upcomings = []
-        this.deleteButtons = {}
-
+    upcomings: []
+    constructor: ($http, $rootScope, $scope) ->
+        controller = this
         this.$http = $http
         this.$scope = $scope
+        this.$rootScope = $rootScope
+
+        unbind = this.$rootScope.$on 'upcoming.associate', ->
+            controller.loadUpcomings()
+        this.$scope.$on '$destroy', unbind
+
+        unbind = this.$rootScope.$on 'upcoming.disassociate', ->
+            controller.loadUpcomings()
+        this.$scope.$on '$destroy', unbind
 
         this.loadUpcomings()
 
     loadUpcomings: ->
         controller = this
 
-        this.$http.get 'http://localhost:6543/api/myUpcomings'
+        this.$http.get '/api/myUpcomings'
             .success (data) ->
                 controller.upcomings = data.upcomings
 
-    minusButton: ($event, id) ->
-        this.deleteButtons[id] = (not ($ $event.currentTarget).hasClass 'active') 
-        console.log this.deleteButtons
-
-    disassociate: (id) ->
-        controller = this
-
-        this.$http.post 'http://localhost:6543/api/disassociate', {'id': id}
-            .success ->
-                controller.deleteButtons = {}
-                controller.loadUpcomings()
-
 
 angular.module('frontendApp')
-    .controller 'MyUpcomingsCtrl', ['$http', '$scope', MyUpcomingsCtrl]
+    .controller 'MyUpcomingsCtrl', ['$http', '$rootScope',
+                                    '$scope', MyUpcomingsCtrl]

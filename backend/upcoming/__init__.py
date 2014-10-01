@@ -11,7 +11,8 @@ log = logging.getLogger(__name__)
 
 
 def main(global_config, **settings):
-    """ This function returns a Pyramid WSGI application.
+    """ 
+    This function returns a Pyramid WSGI application.
     """
     engine = engine_from_config(settings, 'sqlalchemy.')
     DBSession.configure(bind=engine)
@@ -28,11 +29,14 @@ def main(global_config, **settings):
                           authentication_policy=authentication,
                           authorization_policy=authorization)
 
+    config.add_static_view('frontend', 'upcoming:frontend', cache_max_age=3600)
+
     config.add_route('upcomings', '/api/upcomings')
     config.add_route('search_upcomings', '/api/searchUpcomings')
     config.add_route('my_upcomings', '/api/myUpcomings')
     config.add_route('associate', '/api/associate')
     config.add_route('disassociate', '/api/disassociate')
+    config.add_route('create_upcoming', '/api/createUpcoming')
 
     config.add_route('login', '/api/login')
 

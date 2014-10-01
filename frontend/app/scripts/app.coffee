@@ -15,7 +15,8 @@ module = angular.module('frontendApp', [
         'ngRoute',
         'ngSanitize',
         'ngTouch',
-        'LocalStorageModule'
+        'LocalStorageModule',
+        'config'
     ]).config ($routeProvider) ->
         $routeProvider
             .when '/',
@@ -35,14 +36,17 @@ module = angular.module('frontendApp', [
             .otherwise
                 redirectTo: '/'
 
-module.factory 'myInterceptor', ['localStorageService', (localStorage) ->
-    return request: (config) ->
-        token = localStorage.get 'token'
-        username = localStorage.get 'username'
+module.factory 'myInterceptor', ['$location', 'localStorageService', 'BASEURL',
+    ($location, localStorage, BASEURL) ->
+        return request: (config) ->
+            if config.url[0..4] == '/api/'
+                config.url = BASEURL + config.url
+            token = localStorage.get 'token'
+            username = localStorage.get 'username'
 
-        if token and token.token and username
-            config.headers.Authorization = 'JWT token="'+ token.token+'"'
-        return config
+            if token and token.token and username
+                config.headers.Authorization = 'JWT token="'+ token.token+'"'
+            return config
 ]
 
 module.config ['$httpProvider', ($httpProvider) ->

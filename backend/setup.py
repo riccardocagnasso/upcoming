@@ -4,9 +4,9 @@ from setuptools import setup, find_packages
 
 here = os.path.abspath(os.path.dirname(__file__))
 with open(os.path.join(here, 'README.txt')) as f:
-    README = f.read()
+        README = f.read()
 with open(os.path.join(here, 'CHANGES.txt')) as f:
-    CHANGES = f.read()
+        CHANGES = f.read()
 
 requires = [
     'pyramid',
@@ -18,35 +18,34 @@ requires = [
     'zope.sqlalchemy',
     'waitress',
     'colander',
-    'deform',
     'alembic',
     'passlib',
-    'pyramid_jwtauth'
-    ]
+    'pyramid_jwtauth',
+    'sqlalchemy_searchable',
+    'python-dateutil']
 
-setup(name='upcoming',
-      version='0.0',
-      description='upcoming',
-      long_description=README + '\n\n' + CHANGES,
-      classifiers=[
+setup(
+    name='upcoming',
+    version='0.0',
+    description='upcoming',
+    long_description=README + '\n\n' + CHANGES,
+    classifiers=[
         "Programming Language :: Python",
         "Framework :: Pyramid",
         "Topic :: Internet :: WWW/HTTP",
-        "Topic :: Internet :: WWW/HTTP :: WSGI :: Application",
-        ],
-      author='',
-      author_email='',
-      url='',
-      keywords='web wsgi bfg pylons pyramid',
-      packages=find_packages(),
-      include_package_data=True,
-      zip_safe=False,
-      test_suite='upcoming',
-      install_requires=requires,
-      entry_points="""\
-      [paste.app_factory]
-      main = upcoming:main
-      [console_scripts]
-      initialize_upcoming_db = upcoming.scripts.initializedb:main
-      """,
-      )
+        "Topic :: Internet :: WWW/HTTP :: WSGI :: Application"],
+    author='',
+    author_email='',
+    url='',
+    keywords='web wsgi bfg pylons pyramid',
+    packages=find_packages(),
+    include_package_data=True,
+    zip_safe=False,
+    test_suite='upcoming',
+    install_requires=requires,
+    entry_points="""\
+    [paste.app_factory]
+    main = upcoming:main
+    [console_scripts]
+    initialize_upcoming_db = upcoming.scripts.initializedb:main
+    """)

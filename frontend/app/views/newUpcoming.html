@@ -1,46 +1,40 @@
-<div class="row">
-
-    <div class="col-md-12">
-        <h3>Add a new Upcoming</h3>
-        <div class="input-group">
-            <input type="text" class="form-control" id="name" placeholder="name" ng-model="NewUpcomingCtrl.newUpcoming.name" ng-change="NewUpcomingCtrl.nameChange()">
-            <span class="input-group-addon btn"><span class="glyphicon glyphicon-cog"></span></span>
-        </div>
-    </div>
-
-    <div class="col-md-9">
-        <h4>Select a matching Upcoming...</h4>
-        <div class="row">
-            <div class="col-sm-6 col-md-3" ng-repeat="upcoming in NewUpcomingCtrl.upcomings">
-                <div class="thumbnail">
-                    <div class="caption">
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-default">{{upcoming.name}}</button>
-                            <button type="button" class="btn btn-success" ng-click="NewUpcomingCtrl.associate(upcoming.id)">
-                                <span class="glyphicon glyphicon-plus"></span>
-                            </button>
-                        </div>
-                        <p>{{upcoming.description}}</p>
-                        <p>{{upcoming.date | date}}</p>
-                        <p>{{upcoming.username}}</p>
-                    </div>
-                </div>
+<form novalidate name="newForm" ng-submit="newForm.$valid && NewUpcomingCtrl.createUpcoming()">
+    <div class="row">
+        <div class="col-md-12">
+            <h3>Add a new Upcoming</h3>
+            <div class="input-group">
+                <input type="text" class="form-control" id="name" placeholder="name" ng-model="NewUpcomingCtrl.newUpcoming.name" ng-change="NewUpcomingCtrl.nameChange()" required>
+                <span class="input-group-addon btn"><span class="glyphicon glyphicon-cog"></span></span>
             </div>
         </div>
-
     </div>
 
-    <div class="col-md-3">
-        <h4>... or create new one!</h4>
-        <div class="form-group">
-            <label for="description">description</label>
-            <input type="text" class="form-control" id="description" placeholder="description">
-        </div>
-        <div class="form-group date">
-            <label for="description">date</label>
-            <input type="text" class="form-control" id="date" placeholder="date">
-        </div>
-        <button type="submit" class="btn btn-success">create</button>
-    </div>
+    <div class="row">
+        <div class="col-md-9">
+            <h4>Select a matching Upcoming...</h4>
+            <div class="row">
+                <upcoming ng-repeat="upcoming in NewUpcomingCtrl.upcomings"></upcoming>
+            </div>
 
-</div>
+        </div>
+
+        <div class="col-md-3">
+            <h4>... or create new one!</h4>
+            <div class="form-group">    
+                <label for="upcoming-description">description</label>
+                <input type="text" class="form-control" id="upcoming-description" placeholder="description" ng-model="NewUpcomingCtrl.newUpcoming.description" required>
+            </div>
+            <div class="form-group">
+                <label for="upcoming-date">date</label>
+                <div class="input-group date">
+                    <input type="text" id="upcoming-date" class="form-control" name="date" placeholder="yyyy-mm-dd" ng-model="NewUpcomingCtrl.newUpcoming.date" required>
+                    <span class="input-group-addon">
+                        <i class="glyphicon glyphicon-th"></i>
+                    </span>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-success">create</button>
+        </div>
+    </div>
+</form>

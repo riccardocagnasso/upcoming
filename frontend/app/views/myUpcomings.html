@@ -3,25 +3,7 @@
     <div class="col-md-9">
 
         <div class="row">
-            <div class="col-sm-6 col-md-3" ng-repeat="upcoming in MyUpcomingsCtrl.upcomings">
-                <div class="thumbnail">
-                    <div class="caption">
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-default">{{upcoming.name}}</button>
-                            <button type="button" class="btn btn-danger" data-toggle="button" ng-click="MyUpcomingsCtrl.minusButton($event, upcoming.id)">
-                                <span class="glyphicon glyphicon-minus"></span>
-                            </button>
-                            <button type="button" class="btn btn-danger" ng-click="MyUpcomingsCtrl.disassociate(upcoming.id)" ng-show="MyUpcomingsCtrl.deleteButtons[upcoming.id]">
-                                ok
-                            </button>
-                        </div>
-
-                        <p>{{upcoming.description}}</p>
-                        <p>{{upcoming.date | date}}</p>
-                        <p>{{upcoming.username}}</p>
-                    </div>
-                </div>
-            </div>
+            <upcoming ng-repeat="upcoming in MyUpcomingsCtrl.upcomings"></upcoming>
         </div>
 
     </div>
