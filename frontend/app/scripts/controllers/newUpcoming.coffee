@@ -20,6 +20,9 @@ class NewUpcomingCtrl
         ($ '.input-group.date').datepicker
             format: "yyyy-mm-dd"
 
+        $ '.tagsinput'
+            .tagsinput()
+
     nameChange: ->
         this.searchUpcomings()
 

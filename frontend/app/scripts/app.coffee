@@ -18,7 +18,7 @@ module = angular.module('frontendApp', [
         'LocalStorageModule',
         'config',
         'directive.g+signin',
-        'ngSocial'
+        'djds4rce.angular-socialshare'
     ]).config ($routeProvider, $locationProvider) ->
         $routeProvider
             .when '/',
@@ -44,7 +44,12 @@ module = angular.module('frontendApp', [
             .otherwise
                 redirectTo: '/'
 
-        $locationProvider.html5Mode true 
+        $locationProvider.html5Mode true
+            .hashPrefix '!'
+
+angular.module 'frontendApp'
+    .run ($FB) ->
+        $FB.init '727286834007338'
 
 module.factory 'myInterceptor', ['$location', 'localStorageService', 'BASEURL',
     ($location, localStorage, BASEURL) ->

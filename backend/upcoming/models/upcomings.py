@@ -51,11 +51,12 @@ class Upcoming(Base):
 
     search_vector = Column(TSVectorType('name', 'description'))
 
-    def __init__(self, name, description, date, username):
+    def __init__(self, name, description, date, username, url):
         self.name = name
         self.description = description
         self.date = date
         self.username = username
+        self.url = url
 
     @classmethod
     def get(cls, id):

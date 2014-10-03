@@ -34,6 +34,16 @@
                 </div>
             </div>
 
+            <div class="form-group">
+                <label for="upcoming-url">url</label>
+                <input type="url" id="upcoming-url" class="form-control" name="url" ng-model="NewUpcomingCtrl.newUpcoming.url" required>
+            </div>
+
+            <div class="form-group">
+                <label for="upcoming-tags">tags</label>
+                <input type="text" id="upcoming-tags" class="tagsinput" name="tags" ng-model="NewUpcomingCtrl.newUpcoming.tags" required>
+            </div>
+
             <button type="submit" class="btn btn-success">create</button>
         </div>
     </div>

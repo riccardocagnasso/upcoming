@@ -6,3 +6,4 @@ class NewUpcomingSchema(c.MappingSchema):
     name = c.SchemaNode(c.String())
     description = c.SchemaNode(c.String())
     date = c.SchemaNode(FormatDateTime())
+    url = c.SchemaNode(c.String())
