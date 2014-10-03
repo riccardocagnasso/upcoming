@@ -1,6 +1,8 @@
 from pyramid.view import view_config
 from pyramid.httpexceptions import *
 
+import short_url
+
 from ..models import *
 from . import *
 
@@ -90,4 +92,18 @@ def create_upcoming(request):
 
     return {
         'success': True
+    }
+
+
+@view_config(route_name="upcoming", renderer="json")
+@cors
+def upcoming(request):
+    userid = request.authenticated_userid
+
+    eid = request.json_body.get('shortUrl', '')
+    upcoming = Upcoming.get(short_url.decode_url(eid))
+
+    return {
+        'success': True,
+        'upcoming': dict(upcoming.rich_to_dict(userid))
     }

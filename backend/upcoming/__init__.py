@@ -11,7 +11,7 @@ log = logging.getLogger(__name__)
 
 
 def main(global_config, **settings):
-    """ 
+    """
     This function returns a Pyramid WSGI application.
     """
     engine = engine_from_config(settings, 'sqlalchemy.')
@@ -37,8 +37,10 @@ def main(global_config, **settings):
     config.add_route('associate', '/api/associate')
     config.add_route('disassociate', '/api/disassociate')
     config.add_route('create_upcoming', '/api/createUpcoming')
+    config.add_route('upcoming', '/api/upcoming')
 
     config.add_route('login', '/api/login')
+    config.add_route('login.google', '/api/loginGoogle')
 
     config.scan()
 

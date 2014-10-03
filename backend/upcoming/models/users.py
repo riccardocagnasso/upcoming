@@ -45,7 +45,7 @@ class User(Base):
 
     created = Column(DateTime, default=datetime.utcnow())
 
-    def __init__(self, username, password):
+    def __init__(self, username, password=None):
         self.username = username
 
         if password is not None:

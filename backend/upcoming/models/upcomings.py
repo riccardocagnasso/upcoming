@@ -4,6 +4,7 @@ from sqlalchemy_utils.types import TSVectorType
 from sqlalchemy_searchable import search
 from sqlalchemy.orm.collections import attribute_mapped_collection
 
+import short_url
 
 from . import Base, DBSession
 
@@ -34,6 +35,7 @@ class Upcoming(Base):
     name = Column(Unicode)
     description = Column(Unicode)
     date = Column(DateTime)
+    website = Column(Unicode)
 
     created = Column(DateTime, default=datetime.utcnow())
     username = Column(Unicode, ForeignKey(
@@ -73,6 +75,7 @@ class Upcoming(Base):
             yield e
 
         yield 'date', self.date.timestamp() * 1e3
+        yield 'shortUrl', short_url.encode_url(self.id)
 
     def rich_to_dict(self, username=None):
         d = dict(self)

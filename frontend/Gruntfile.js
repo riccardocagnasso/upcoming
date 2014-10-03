@@ -6,6 +6,7 @@
 // 'test/spec/{,*/}*.js'
 // use this if you want to recursively match all subfolders:
 // 'test/spec/**/*.js'
+var modRewrite = require('connect-modrewrite');
 
 module.exports = function (grunt) {
 
@@ -66,7 +67,7 @@ module.exports = function (grunt) {
       options: {
         port: 9000,
         // Change this to '0.0.0.0' to access the server from outside.
-        hostname: 'localhost',
+        hostname: '0.0.0.0',
         livereload: 35729
       },
       livereload: {
@@ -74,6 +75,9 @@ module.exports = function (grunt) {
           open: true,
           middleware: function (connect) {
             return [
+              modRewrite([
+                '!\\.html|\\.js|\\.css|\\.png|\\.coffee|\\.woff|\\.ttf|\\.svg$ /index.html [L]'
+              ]),
               connect.static('.tmp'),
               connect().use(
                 '/bower_components',
@@ -181,7 +185,7 @@ module.exports = function (grunt) {
         },
         constants: {
           ENV: 'development',
-          BASEURL: 'http://localhost:6543'
+          BASEURL: 'http://phas.ddns.net:6543'
         }
       },
       production: {

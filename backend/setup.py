@@ -22,7 +22,9 @@ requires = [
     'passlib',
     'pyramid_jwtauth',
     'sqlalchemy_searchable',
-    'python-dateutil']
+    'python-dateutil',
+    'short-url',
+    'google-api-python-client']
 
 setup(
     name='upcoming',

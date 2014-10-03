@@ -8,14 +8,19 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Upcoming!</a>
+            <a class="navbar-brand" ng-href="/">Upcoming!</a>
         </div>
 
         <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav" ng-show="topBarCtrl.username">
-                <li><a ng-href="#/myUpcomings">My Upcomings</a></li>
-                <li><a ng-href="#/newUpcoming">New Upcoming</a></li>
+            <ul class="nav navbar-nav">
+                <li ng-show="topBarCtrl.username"><a ng-href="/myUpcomings">My Upcomings</a></li>
+                <li ng-show="topBarCtrl.username"><a ng-href="/newUpcoming">New Upcoming</a></li>
+                <li><a ng-href="/faq">Faq</a></li>
             </ul>            
+
+            <div class="navbar-form navbar-right" ng-hide="topBarCtrl.username">
+                <google-plus-signin clientid="281630648196-oss9bk6fffvlq85139bql607ra05d839.apps.googleusercontent.com"></google-plus-signin>
+            </div>
 
             <form ng-hide="topBarCtrl.username" class="navbar-form navbar-right" role="form" ng-submit="topBarCtrl.login()">
                 <div class="form-group">
@@ -26,9 +31,21 @@
                 </div>
                 <button type="submit" class="btn btn-success">Sign in</button>
             </form>
+             
+        <!-- Don't forget to place the script that does the asynchronous loading of Google+ JavaScript API.
+             Because it is loaded asynchronously, it might take some time to load. 
+             Place some loading notification, so user won't get confused. 
+             You can use ng-show and ng-hide to show or hide your notification and accomplish best user experience. --><script>// <![CDATA[
+            (function() {
+                var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+                po.src = 'https://apis.google.com/js/client:plusone.js';
+                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+            })();
+             
+            // ]]></script><!-- Second script needed for accessing Google API (gapi.*) . It's usage will be described in controller. --><script src="https://apis.google.com/js/client.js?onload=handleClientLoad"></script>
 
             <form ng-show="topBarCtrl.username" class="navbar-form navbar-right" role="form" ng-submit="topBarCtrl.logout()">
-                <a ng-href="#/username"><span class="glyphicon glyphicon-user"></span>{{topBarCtrl.username}}</a>
+                <a ng-href="/username"><span class="glyphicon glyphicon-user"></span>{{topBarCtrl.username}}</a>
                 <button type="submit" class="btn btn-danger">Logout</button>
             </form>
 
